@@ -14,7 +14,7 @@ app.use(bodyParser.json());
 
 const realEstateApiKey = 'DIZWAYMLS-ce82-760e-af23-1399f2c83d6a';
 // URL for the RealEstate API
-const realEstateApiUrl = 'https://developer.realestateapi.com/reference/skiptrace-api';
+const realEstateApiUrl = 'https://api.realestateapi.com/v1/SkipTrace';
 // Webhook URL where the response will be posted
 const webhookUrl = 'https://services.leadconnectorhq.com/hooks/V2v3MIyr6arc4ftnD2Zg/webhook-trigger/84c9248b-bf8b-4ec6-af84-92099c0bbb66';
 
