@@ -18,17 +18,17 @@ const realEstateApiUrl = 'https://api.realestateapi.com/v1/SkipTrace';
 // Webhook URL where the response will be posted
 const webhookUrl = 'https://services.leadconnectorhq.com/hooks/V2v3MIyr6arc4ftnD2Zg/webhook-trigger/84c9248b-bf8b-4ec6-af84-92099c0bbb66';
 
-
 app.get('/', (req, res) => {
   res.send('Welcome to the API system!');
 });
 
-// GET API endpoint
-app.get('/api/process', async (req, res) => {
+// POST API endpoint
+app.post('/api/process', async (req, res) => {
   try {
     const requestBody = req.body; // Get the body data sent from the front end
     console.log('Received data:', requestBody);
 
+    // Send the data to the RealEstate API
     const realEstateResponse = await axios.post(realEstateApiUrl, requestBody, {
       headers: {
         'x-api-key': realEstateApiKey,
