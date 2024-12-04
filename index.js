@@ -20,7 +20,7 @@ const webhookUrl = 'https://services.leadconnectorhq.com/hooks/V2v3MIyr6arc4ftnD
 
 
 app.get('/', (req, res) => {
-  res.send('Welcome to the API system');
+  res.send('Welcome to the API system!');
 });
 
 // GET API endpoint
