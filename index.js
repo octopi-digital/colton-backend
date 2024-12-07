@@ -179,12 +179,13 @@ app.post("/api/property-detail", async (req, res) => {
     const requestBody = req.body;
     console.log("Received Property Detail Request Data:", requestBody);
 
+    const email = { email: requestBody.email };
+
+    console.log(email)
 
     delete requestBody.email;
 
     console.log("Update Received Property Detail Request Data:", requestBody);
-
-
 
     // Call the PropertyDetail API
     const propertyDetailResponse = await axios.post(propertyDetailApiUrl, requestBody, {
@@ -194,15 +195,16 @@ app.post("/api/property-detail", async (req, res) => {
       },
     });
 
-    console.log("Original Property Detail Response Data:", propertyDetailResponse.data);
-
     // Process and transform the response data if necessary
     const transformedData = transformPropertyDetailResponse(propertyDetailResponse.data);
 
-    console.log("Transformed Property Detail Data:", transformedData);
+    // Include email with transformed data before sending to the webhook
+    const payload = { ...transformedData, ...email };
 
-    // Send the transformed data to the webhook
-    const webhookResponse = await axios.post(propertyDetailWebhookUrl, transformedData, {
+    console.log("Payload to send to webhook:", payload);
+
+    // Send the transformed data along with email to the webhook
+    const webhookResponse = await axios.post(propertyDetailWebhookUrl, payload, {
       headers: {
         "Content-Type": "application/json",
       },
@@ -210,7 +212,7 @@ app.post("/api/property-detail", async (req, res) => {
 
     console.log("Webhook response status:", webhookResponse.status);
 
-    res.json({ message: "Property detail data processed successfully", data: transformedData });
+    res.json({ message: "Property detail data processed successfully", data: payload });
   } catch (error) {
     console.error("Error occurred:", error.message);
     res.status(500).json({ message: "An error occurred", error: error.message });
@@ -268,15 +270,6 @@ function transformPropertyDetailResponse(data) {
 
   return transformed;
 }
-
-
-
-
-
-
-
-
-
 
 
 app.listen(PORT, () => {
