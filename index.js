@@ -185,7 +185,7 @@ app.post("/api/property-detail", async (req, res) => {
 
     delete requestBody.email;
 
-    console.log("Update Received Property Detail Request Data:", requestBody);
+    console.log("Update Received Property Detail Request Data: ", requestBody);
 
     // Call the PropertyDetail API
     const propertyDetailResponse = await axios.post(propertyDetailApiUrl, requestBody, {
