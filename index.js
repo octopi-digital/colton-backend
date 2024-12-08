@@ -23,6 +23,11 @@ const webhookUrl = "https://services.leadconnectorhq.com/hooks/V2v3MIyr6arc4ftnD
 const propertyDetailApiUrl = "https://api.realestateapi.com/v2/PropertyDetail";
 const propertyDetailWebhookUrl = "https://services.leadconnectorhq.com/hooks/V2v3MIyr6arc4ftnD2Zg/webhook-trigger/5a288f71-acad-43ef-b4dd-e908d3085e42";
 
+// Third API: Property Comparables API
+const propertyCompsApiUrl = "https://api.realestateapi.com/v3/PropertyComps";
+const propertyCompsWebhookUrl = "https://services.leadconnectorhq.com/hooks/V2v3MIyr6arc4ftnD2Zg/webhook-trigger/cf2ab8ad-8b08-4489-aad8-1e8b8c5509df";
+
+
 app.get("/", (req, res) => {
   res.send("Welcome to the API system!");
 });
@@ -164,15 +169,6 @@ function transformArrayToObject(data) {
   return transformed;
 }
 
-
-
-
-
-
-
-
-
-
 // Property Detail API
 app.post("/api/property-detail", async (req, res) => {
   try {
@@ -271,6 +267,77 @@ function transformPropertyDetailResponse(data) {
   return transformed;
 }
 
+app.post("/api/property-comps", async (req, res) => {
+  try {
+    const requestBody = req.body;
+    console.log("Received Property Comps Request Data:", requestBody);
+
+    const email = { email: requestBody.email };
+
+    console.log("Extracted Email:", email);
+
+    // Remove email from the main request body to avoid sending it to the external API
+    delete requestBody.email;
+
+    console.log("Updated Property Comps Request Data: ", requestBody);
+
+    // Call the Property Comparables API
+    const propertyCompsResponse = await axios.post(propertyCompsApiUrl, requestBody, {
+      headers: {
+        "x-api-key": realEstateApiKey,
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Response from Property Comps API:", propertyCompsResponse.data);
+
+    // Process and transform the response data if necessary
+    const transformedData = transformAllArraysToObjects(propertyCompsResponse.data);
+
+    // Include email with transformed data before sending to the webhook
+    const payload = { ...transformedData, ...email };
+
+    console.log("Payload to send to Webhook:", payload);
+
+    // Send the transformed data along with email to the webhook
+    const webhookResponse = await axios.post(propertyCompsWebhookUrl, payload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Webhook response status:", webhookResponse.status);
+
+    res.json({ message: "Property comps data processed successfully", data: payload });
+  } catch (error) {
+    console.error("Error occurred:", error.message);
+    res.status(500).json({ message: "An error occurred", error: error.message });
+  }
+});
+
+// Function to recursively transform all arrays into objects
+function transformAllArraysToObjects(data) {
+  // Check if the input is an array
+  if (Array.isArray(data)) {
+    const transformedObject = {};
+    data.forEach((item, index) => {
+      transformedObject[`item${index + 1}`] = transformAllArraysToObjects(item);
+    });
+    return transformedObject;
+  }
+
+  // Check if the input is an object and recursively transform its properties
+  if (data !== null && typeof data === "object") {
+    const transformedObject = {};
+    Object.keys(data).forEach((key) => {
+      transformedObject[key] = transformAllArraysToObjects(data[key]);
+    });
+    return transformedObject;
+  }
+
+  // Return non-array, non-object values as is
+  return data;
+}
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
