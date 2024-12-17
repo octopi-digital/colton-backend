@@ -13,7 +13,7 @@ app.use(cors());
 app.use(bodyParser.json());
 
 // x-api-key
-const realEstateApiKey = "DIZWAYMLS-ce82-760e-af23-1399f2c83d6a";
+const realEstateApiKey = "DIZWAY-74b8-7a65-97e2-a74e3aaf662d";
 
 // Skiptrace API & Webhook
 const realEstateApiUrl = "https://api.realestateapi.com/v1/SkipTrace";
@@ -267,6 +267,8 @@ function transformPropertyDetailResponse(data) {
   return transformed;
 }
 
+
+// Coms Property API
 app.post("/api/property-comps", async (req, res) => {
   try {
     const requestBody = req.body;
