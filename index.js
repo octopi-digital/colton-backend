@@ -27,6 +27,14 @@ const propertyDetailWebhookUrl = "https://services.leadconnectorhq.com/hooks/V2v
 const propertyCompsApiUrl = "https://api.realestateapi.com/v3/PropertyComps";
 const propertyCompsWebhookUrl = "https://services.leadconnectorhq.com/hooks/V2v3MIyr6arc4ftnD2Zg/webhook-trigger/cf2ab8ad-8b08-4489-aad8-1e8b8c5509df";
 
+// Third API: Property Comparables API
+const propertyAutofillApiUrl = "https://api.realestateapi.com/v3/PropertyComps";
+const propertyAutofillWebhookUrl = "https://services.leadconnectorhq.com/hooks/V2v3MIyr6arc4ftnD2Zg/webhook-trigger/cf2ab8ad-8b08-4489-aad8-1e8b8c5509df";
+
+
+//AVM
+const propertyAVMApiUrl = "https://api.realestateapi.com/v2/PropertyAvm";
+const propertyAVMWebhookUrl = "https://services.leadconnectorhq.com/hooks/V2v3MIyr6arc4ftnD2Zg/webhook-trigger/KXTmzgh3RXgdsiE6BM9A";
 
 app.get("/", (req, res) => {
   res.send("Welcome to the API system!");
@@ -340,6 +348,59 @@ function transformAllArraysToObjects(data) {
   // Return non-array, non-object values as is
   return data;
 }
+
+
+
+
+
+//AVM
+app.post("/api/property-avm", async (req, res) => {
+  try {
+    const requestBody = req.body;
+    console.log("Received Property AVM Request Data:", requestBody);
+
+    const email = { email: requestBody.email };
+
+    console.log("Extracted Email:", email);
+
+    // Remove email from the main request body to avoid sending it to the external API
+    delete requestBody.email;
+
+    console.log("Updated Property AVM Request Data: ", requestBody);
+
+    // Call the Property Comparables API
+    const propertyCompsResponse = await axios.post(propertyAVMApiUrl, requestBody, {
+      headers: {
+        "x-api-key": "DIZWAYADDONTEST-b049-72ca-a511-0035c08f2559",
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Response from Property AVM API:", propertyCompsResponse.data);
+
+
+    // Include email with transformed data before sending to the webhook
+    const payload = { ...propertyCompsResponse.data, ...email };
+
+    console.log("Payload to send to Webhook:", payload);
+
+    // Send the transformed data along with email to the webhook
+    const webhookResponse = await axios.post(propertyAVMWebhookUrl, payload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log("Webhook response status:", webhookResponse.status);
+
+    res.json({ message: "Property AVM data processed successfully", data: payload });
+  } catch (error) {
+    console.error("Error occurred:", error.message);
+    res.status(500).json({ message: "An error occurred", error: error.message });
+  }
+});
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
