@@ -348,11 +348,10 @@ app.post("/api/property-detail", async (req, res) => {
     if (result.insertId !== null) {
       // Final response for successful query execution
       console.log("Property detail data processed and inserted successfully");
-      res.json({ messageAPI: "Property detail data processed successfully",messageDB: "Property detail data processed and inserted successfully" });
-
       // ..................................................................................
       //Mortgage data
-      const mortgageHistoryData = payload.data?.mortgageHistory || {};
+      if(payload.data?.mortgageHistory){
+        const mortgageHistoryData = payload.data?.mortgageHistory || {};
 
       // Extract all mortgages dynamically
       const allMortgages = Object.keys(mortgageHistoryData).map((key) => {
@@ -433,92 +432,97 @@ app.post("/api/property-detail", async (req, res) => {
           console.log("Mortgage data insert error");
         }
       }
+      }
 
       // ..................................................................................
       //Demographics data
-
-      const demographics = {
-        propertyId: payload.data?.id,
-        fmrEfficiency: payload.data.demographics?.fmrEfficiency,
-        fmrFourBedroom: payload.data.demographics?.fmrFourBedroom,
-        fmrOneBedroom: payload.data.demographics?.fmrOneBedroom,
-        fmrThreeBedroom: payload.data.demographics?.fmrThreeBedroom,
-        fmrTwoBedroom: payload.data.demographics?.fmrTwoBedroom,
-        fmrYear: payload.data.demographics?.fmrYear,
-        hudAreaCode: payload.data.demographics?.hudAreaCode,
-        hudAreaName: payload.data.demographics?.hudAreaName,
-        medianIncome: payload.data.demographics?.medianIncome,
-        suggestedRent: payload.data.demographics?.suggestedRent,
-      };
-
-      const demographicsKeys = Object.keys(demographics).join(", ");
-      const demographicsKeysPlaceholders = Object.keys(demographics)
-        .map(() => "?")
-        .join(", ");
-      const values = Object.values(demographics);
-
-      const query = `INSERT INTO demographics (${demographicsKeys}) VALUES (${demographicsKeysPlaceholders})`;
-
-      // Execute the query
-      const [result] = await connection.execute(query, values);
-      if (result !== null) {
-        console.log(`Inserted demographics with DB ID: ${result.insertId}`);
-      } else {
-        console.log("demographics data insert error");
+      if(payload.data?.demographics){
+        const demographics = {
+          propertyId: payload.data?.id,
+          fmrEfficiency: payload.data.demographics?.fmrEfficiency,
+          fmrFourBedroom: payload.data.demographics?.fmrFourBedroom,
+          fmrOneBedroom: payload.data.demographics?.fmrOneBedroom,
+          fmrThreeBedroom: payload.data.demographics?.fmrThreeBedroom,
+          fmrTwoBedroom: payload.data.demographics?.fmrTwoBedroom,
+          fmrYear: payload.data.demographics?.fmrYear,
+          hudAreaCode: payload.data.demographics?.hudAreaCode,
+          hudAreaName: payload.data.demographics?.hudAreaName,
+          medianIncome: payload.data.demographics?.medianIncome,
+          suggestedRent: payload.data.demographics?.suggestedRent,
+        };
+  
+        const demographicsKeys = Object.keys(demographics).join(", ");
+        const demographicsKeysPlaceholders = Object.keys(demographics)
+          .map(() => "?")
+          .join(", ");
+        const values = Object.values(demographics);
+  
+        const query = `INSERT INTO demographics (${demographicsKeys}) VALUES (${demographicsKeysPlaceholders})`;
+  
+        // Execute the query
+        const [result] = await connection.execute(query, values);
+        if (result !== null) {
+          console.log(`Inserted demographics with DB ID: ${result.insertId}`);
+        } else {
+          console.log("demographics data insert error");
+        }
       }
+      
 
       //.........................................................................
       // LotInfo data
-      const lotInfo = {
-        propertyId: payload.data?.id,
-        apn: payload.data.lotInfo?.apn,
-        apnUnformatted: payload.data.lotInfo?.apnUnformatted,
-        censusBlock: payload.data.lotInfo?.censusBlock,
-        censusBlockGroup: payload.data.lotInfo?.censusBlockGroup,
-        censusTract: payload.data.lotInfo?.censusTract,
-        landUse: payload.data.lotInfo?.landUse,
-        legalDescription: payload.data.lotInfo?.legalDescription,
-        legalSection: payload.data.lotInfo?.legalSection,
-        lotAcres: payload.data.lotInfo?.lotAcres,
-        lotNumber: payload.data.lotInfo?.lotNumber,
-        lotSquareFeet: payload.data.lotInfo?.lotSquareFeet,
-        propertyClass: payload.data.lotInfo?.propertyClass,
-        propertyUse: payload.data.lotInfo?.propertyUse,
-        subdivision: payload.data.lotInfo?.subdivision,
-        zoning: payload.data.lotInfo?.zoning,
-      };
-
-      // Dynamically generate keys and placeholders
-      const lotInfoKeys = Object.keys(lotInfo).join(", ");
-      const lotInfoKeysPlaceholders = Object.keys(lotInfo)
-        .map(() => "?")
-        .join(", ");
-      const lotInfoValues = Object.values(lotInfo);
-
-      // Prepare the query
-      const lotInfoQuery = `INSERT INTO lotInfo (${lotInfoKeys}) VALUES (${lotInfoKeysPlaceholders})`;
-
-      try {
-        // Execute the query
-        const [result] = await connection.execute(lotInfoQuery, lotInfoValues);
-        if (result?.affectedRows > 0) {
-          console.log(`Inserted lotInfo with DB ID: ${result.insertId}`);
-        } else {
-          console.log("lotInfo data insert error");
+      if(payload.data?.lotInfo){
+        const lotInfo = {
+          propertyId: payload.data?.id,
+          apn: payload.data.lotInfo?.apn,
+          apnUnformatted: payload.data.lotInfo?.apnUnformatted,
+          censusBlock: payload.data.lotInfo?.censusBlock,
+          censusBlockGroup: payload.data.lotInfo?.censusBlockGroup,
+          censusTract: payload.data.lotInfo?.censusTract,
+          landUse: payload.data.lotInfo?.landUse,
+          legalDescription: payload.data.lotInfo?.legalDescription,
+          legalSection: payload.data.lotInfo?.legalSection,
+          lotAcres: payload.data.lotInfo?.lotAcres,
+          lotNumber: payload.data.lotInfo?.lotNumber,
+          lotSquareFeet: payload.data.lotInfo?.lotSquareFeet,
+          propertyClass: payload.data.lotInfo?.propertyClass,
+          propertyUse: payload.data.lotInfo?.propertyUse,
+          subdivision: payload.data.lotInfo?.subdivision,
+          zoning: payload.data.lotInfo?.zoning,
+        };
+  
+        // Dynamically generate keys and placeholders
+        const lotInfoKeys = Object.keys(lotInfo).join(", ");
+        const lotInfoKeysPlaceholders = Object.keys(lotInfo)
+          .map(() => "?")
+          .join(", ");
+        const lotInfoValues = Object.values(lotInfo);
+  
+        // Prepare the query
+        const lotInfoQuery = `INSERT INTO lotInfo (${lotInfoKeys}) VALUES (${lotInfoKeysPlaceholders})`;
+  
+        try {
+          // Execute the query
+          const [result] = await connection.execute(lotInfoQuery, lotInfoValues);
+          if (result?.affectedRows > 0) {
+            console.log(`Inserted lotInfo with DB ID: ${result.insertId}`);
+          } else {
+            console.log("lotInfo data insert error");
+          }
+        } catch (error) {
+          console.error(
+            "Error inserting lotInfo:",
+            error.message,
+            "For:",
+            lotInfo
+          );
         }
-      } catch (error) {
-        console.error(
-          "Error inserting lotInfo:",
-          error.message,
-          "For:",
-          lotInfo
-        );
       }
 
       //......................................................
       //mlsHistory
-
-      const mlsHistoryData = payload.data.mlsHistory || {};
+      if(payload.data?.mlsHistory){
+        const mlsHistoryData = payload.data.mlsHistory || {};
 
       // Extract all mortgages dynamically
       const allMlsHistory = Object.keys(mlsHistoryData).map((key) => {
@@ -588,10 +592,10 @@ app.post("/api/property-detail", async (req, res) => {
           console.error("Error inserting MLS history:", error.message);
         }
       }
+      }
 
       //.......................................
       //Sale History
-      // Check if saleHistory exists in the payload
       if (payload.data?.saleHistory) {
         const saleHistoryData = payload.data.saleHistory;
 
@@ -677,7 +681,6 @@ app.post("/api/property-detail", async (req, res) => {
 
       //.........................................................................
       //School
-      // Check if schools exist in the payload
       if (payload.data?.schools) {
         const schoolsData = payload.data.schools;
 
@@ -881,7 +884,6 @@ app.post("/api/property-detail", async (req, res) => {
 
       //...................................................................
       //Neighborhood
-      // Neighborhood data
       if (payload.data?.neighborhood) {
         const neighborhood = {
           propertyId: payload.data?.id,
@@ -1010,7 +1012,6 @@ app.post("/api/property-detail", async (req, res) => {
 
       //..............................................................
       //taxHistory
-      // Tax Info Data
       if (payload.data?.taxInfo) {
         const taxInfo = {
           propertyId: payload.data?.id,
@@ -1154,6 +1155,8 @@ app.post("/api/property-detail", async (req, res) => {
 
       // Close the database connection
       await connection.end();
+
+      res.json({ messageAPI: "Property detail data processed successfully",messageDB: "Property detail data processed and inserted successfully" });
 
       //Property Return
       return;
