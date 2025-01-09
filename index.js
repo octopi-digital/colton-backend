@@ -250,10 +250,10 @@ app.post("/api/property-detail", async (req, res) => {
 
     //console.log("Webhook response status:", webhookResponse.status);
 
-    res.json({
-      message: "Property detail data processed successfully",
-      data: payload,
-    });
+    // res.json({
+    //   message: "Property detail data processed successfully",
+    //   data: payload,
+    // });
 
     //For Property Table
     const property = {
@@ -348,6 +348,7 @@ app.post("/api/property-detail", async (req, res) => {
     if (result.insertId !== null) {
       // Final response for successful query execution
       console.log("Property detail data processed and inserted successfully");
+      res.json({ messageAPI: "Property detail data processed successfully",messageDB: "Property detail data processed and inserted successfully" });
 
       // ..................................................................................
       //Mortgage data
