@@ -264,53 +264,53 @@ app.post("/api/property-detail", async (req, res) => {
       adjustableRate: payload.data?.adjustableRate,
       assumable: payload.data?.assumable,
       auction: payload.data?.auction,
-      equity: payload.data?.equity,
-      bankOwned: payload.data?.bankOwned,
+      equity: payload.data?.equity || null,
+      bankOwned: payload.data?.bankOwned || null,
       cashBuyer: payload.data?.cashBuyer,
       cashSale: payload.data?.cashSale,
       corporateOwned: payload.data?.corporateOwned,
       death: payload.data?.death,
       deathTransfer: payload.data?.deathTransfer,
       deedInLieu: payload.data?.deedInLieu,
-      equityPercent: payload.data?.equityPercent,
-      estimatedEquity: payload.data?.estimatedEquity,
-      estimatedMortgageBalance: payload.data?.estimatedMortgageBalance,
-      estimatedMortgagePayment: payload.data?.estimatedMortgagePayment,
-      estimatedValue: payload.data?.estimatedValue,
+      equityPercent: payload.data?.equityPercent || null,
+      estimatedEquity: payload.data?.estimatedEquity || null,
+      estimatedMortgageBalance: payload.data?.estimatedMortgageBalance || null,
+      estimatedMortgagePayment: payload.data?.estimatedMortgagePayment || null,
+      estimatedValue: payload.data?.estimatedValue || null,
       floodZone: payload.data?.floodZone,
-      floodZoneDescription: payload.data?.floodZoneDescription,
-      floodZoneType: payload.data?.floodZoneType,
+      floodZoneDescription: payload.data?.floodZoneDescription || null,
+      floodZoneType: payload.data?.floodZoneType || null,
       freeClear: payload.data?.freeClear,
       highEquity: payload.data?.highEquity,
       inStateAbsenteeOwner: payload.data?.inStateAbsenteeOwner,
       inherited: payload.data?.inherited,
       investorBuyer: payload.data?.investorBuyer,
       judgment: payload.data?.judgment,
-      lastSaleDate: payload.data?.lastSaleDate,
-      lastSalePrice: payload.data?.lastSalePrice,
+      lastSaleDate: payload.data?.lastSaleDate || null,
+      lastSalePrice: payload.data?.lastSalePrice || null,
       lastUpdateDate: payload.data?.lastUpdateDate?.split(" ")[0], // Format date to YYYY-MM-DD
       lien: payload.data?.lien,
-      loanTypeCodeFirst: payload.data?.loanTypeCodeFirst,
+      loanTypeCodeFirst: payload.data?.loanTypeCodeFirst || null,
       loanTypeCodeSecond: payload.data?.loanTypeCodeSecond,
       loanTypeCodeThird: payload.data?.loanTypeCodeThird,
-      maturityDateFirst: payload.data?.maturityDateFirst?.split("T")[0], // Format date to YYYY-MM-DD
+      maturityDateFirst: payload.data?.maturityDateFirst?.split("T")[0] || null, // Format date to YYYY-MM-DD
       mlsActive: payload.data?.mlsActive,
       mlsCancelled: payload.data?.mlsCancelled,
-      mlsDaysOnMarket: payload.data?.mlsDaysOnMarket,
+      mlsDaysOnMarket: payload.data?.mlsDaysOnMarket || null,
       mlsFailed: payload.data?.mlsFailed,
       mlsFailedDate: payload.data?.mlsFailedDate,
       mlsHasPhotos: payload.data?.mlsHasPhotos,
-      mlsLastSaleDate: payload.data?.mlsLastSaleDate?.split("T")[0], // Format date to YYYY-MM-DD
-      mlsLastStatusDate: payload.data?.mlsLastStatusDate?.split("T")[0], // Format date to YYYY-MM-DD
-      mlsListingDate: payload.data?.mlsListingDate?.split("T")[0], // Format date to YYYY-MM-DD
+      mlsLastSaleDate: payload.data?.mlsLastSaleDate?.split("T")[0] || null, // Format date to YYYY-MM-DD
+      mlsLastStatusDate: payload.data?.mlsLastStatusDate?.split("T")[0] || null, // Format date to YYYY-MM-DD
+      mlsListingDate: payload.data?.mlsListingDate?.split("T")[0] || null, // Format date to YYYY-MM-DD
       mlsListingPrice: payload.data?.mlsListingPrice,
-      mlsListingPricePerSquareFoot: payload.data?.mlsListingPricePerSquareFoot,
+      mlsListingPricePerSquareFoot: payload.data?.mlsListingPricePerSquareFoot || null,
       mlsPending: payload.data?.mlsPending,
       mlsSold: payload.data?.mlsSold,
       mlsSoldPrice: payload.data?.mlsSoldPrice,
-      mlsStatus: payload.data?.mlsStatus,
+      mlsStatus: payload.data?.mlsStatus || null,
       mlsTotalUpdates: payload.data?.mlsTotalUpdates,
-      mlsType: payload.data?.mlsType,
+      mlsType: payload.data?.mlsType || null,
       mobileHome: payload.data?.mobileHome,
       noticeType: payload.data?.noticeType,
       openMortgageBalance: payload.data?.openMortgageBalance,
@@ -318,9 +318,9 @@ app.post("/api/property-detail", async (req, res) => {
       ownerOccupied: payload.data?.ownerOccupied,
       preForeclosure: payload.data?.preForeclosure,
       privateLender: payload.data?.privateLender,
-      propertyType: payload.data?.propertyType,
+      propertyType: payload.data?.propertyType || null,
       quitClaim: payload.data?.quitClaim,
-      reapi_loaded_at: payload.data?.reapi_loaded_at,
+      reapi_loaded_at: payload.data?.reapi_loaded_at || null,
       sheriffsDeed: payload.data?.sheriffsDeed,
       spousalDeath: payload.data?.spousalDeath,
       taxLien: payload.data?.taxLien,
@@ -329,7 +329,7 @@ app.post("/api/property-detail", async (req, res) => {
       warrantyDeed: payload.data?.warrantyDeed,
     };
 
-    //console.log(property);
+    console.log(property);
 
     const connection = await mysql.createConnection(dbConfig);
     const keys = Object.keys(property).join(", ");
@@ -359,28 +359,28 @@ app.post("/api/property-detail", async (req, res) => {
 
         return {
           propertyId: payload.data?.id, // Assuming propertyId is available in payload.data
-          amount: mortgage?.amount, // Dynamically extract amount
-          assumable: mortgage?.assumable,
-          book: mortgage?.book,
-          page: mortgage?.page,
-          documentNumber: mortgage?.documentNumber,
-          deedType: mortgage?.deedType,
-          documentDate: mortgage?.documentDate?.split("T")[0], // Format date to YYYY-MM-DD
-          granteeName: mortgage?.granteeName,
-          interestRate: mortgage?.interestRate,
-          interestRateType: mortgage?.interestRateType,
-          lenderCode: mortgage?.lenderCode,
-          lenderName: mortgage?.lenderName,
-          lenderType: mortgage?.lenderType,
-          loanType: mortgage?.loanType,
-          loanTypeCode: mortgage?.loanTypeCode,
+          amount: mortgage?.amount || null, // Dynamically extract amount
+          assumable: mortgage?.assumable || null,
+          book: mortgage?.book || null,
+          page: mortgage?.page || null,
+          documentNumber: mortgage?.documentNumber || null,
+          deedType: mortgage?.deedType || null,
+          documentDate: mortgage?.documentDate?.split("T")[0] || null, // Format date to YYYY-MM-DD
+          granteeName: mortgage?.granteeName || null,
+          interestRate: mortgage?.interestRate || null,
+          interestRateType: mortgage?.interestRateType || null,
+          lenderCode: mortgage?.lenderCode || null,
+          lenderName: mortgage?.lenderName || null,
+          lenderType: mortgage?.lenderType || null,
+          loanType: mortgage?.loanType || null,
+          loanTypeCode: mortgage?.loanTypeCode || null,
           maturityDate: mortgage?.maturityDate?.split("T")[0], // Format date to YYYY-MM-DD
-          position: mortgage?.position,
+          position: mortgage?.position || null,
           recordingDate: mortgage?.recordingDate?.split("T")[0], // Format date to YYYY-MM-DD
-          seqNo: mortgage?.seqNo,
-          term: mortgage?.term,
-          termType: mortgage?.termType,
-          transactionType: mortgage?.transactionType,
+          seqNo: mortgage?.seqNo || null,
+          term: mortgage?.term || null,
+          termType: mortgage?.termType || null,
+          transactionType: mortgage?.transactionType || null,
         };
       });
 
@@ -422,6 +422,8 @@ app.post("/api/property-detail", async (req, res) => {
           mortgage.transactionType,
         ];
 
+        console.log(values)
+
         // Execute the query
         const [result] = await connection.execute(query, values);
         if (result !== null) {
@@ -439,16 +441,16 @@ app.post("/api/property-detail", async (req, res) => {
       if(payload.data?.demographics){
         const demographics = {
           propertyId: payload.data?.id,
-          fmrEfficiency: payload.data.demographics?.fmrEfficiency,
-          fmrFourBedroom: payload.data.demographics?.fmrFourBedroom,
-          fmrOneBedroom: payload.data.demographics?.fmrOneBedroom,
-          fmrThreeBedroom: payload.data.demographics?.fmrThreeBedroom,
-          fmrTwoBedroom: payload.data.demographics?.fmrTwoBedroom,
-          fmrYear: payload.data.demographics?.fmrYear,
-          hudAreaCode: payload.data.demographics?.hudAreaCode,
-          hudAreaName: payload.data.demographics?.hudAreaName,
-          medianIncome: payload.data.demographics?.medianIncome,
-          suggestedRent: payload.data.demographics?.suggestedRent,
+          fmrEfficiency: payload.data.demographics?.fmrEfficiency || null,
+          fmrFourBedroom: payload.data.demographics?.fmrFourBedroom || null,
+          fmrOneBedroom: payload.data.demographics?.fmrOneBedroom || null,
+          fmrThreeBedroom: payload.data.demographics?.fmrThreeBedroom || null,
+          fmrTwoBedroom: payload.data.demographics?.fmrTwoBedroom || null,
+          fmrYear: payload.data.demographics?.fmrYear || null,
+          hudAreaCode: payload.data.demographics?.hudAreaCode || null,
+          hudAreaName: payload.data.demographics?.hudAreaName || null,
+          medianIncome: payload.data.demographics?.medianIncome || null,
+          suggestedRent: payload.data.demographics?.suggestedRent || null,
         };
   
         const demographicsKeys = Object.keys(demographics).join(", ");
@@ -474,21 +476,21 @@ app.post("/api/property-detail", async (req, res) => {
       if(payload.data?.lotInfo){
         const lotInfo = {
           propertyId: payload.data?.id,
-          apn: payload.data.lotInfo?.apn,
-          apnUnformatted: payload.data.lotInfo?.apnUnformatted,
-          censusBlock: payload.data.lotInfo?.censusBlock,
-          censusBlockGroup: payload.data.lotInfo?.censusBlockGroup,
-          censusTract: payload.data.lotInfo?.censusTract,
-          landUse: payload.data.lotInfo?.landUse,
-          legalDescription: payload.data.lotInfo?.legalDescription,
-          legalSection: payload.data.lotInfo?.legalSection,
-          lotAcres: payload.data.lotInfo?.lotAcres,
-          lotNumber: payload.data.lotInfo?.lotNumber,
-          lotSquareFeet: payload.data.lotInfo?.lotSquareFeet,
-          propertyClass: payload.data.lotInfo?.propertyClass,
-          propertyUse: payload.data.lotInfo?.propertyUse,
-          subdivision: payload.data.lotInfo?.subdivision,
-          zoning: payload.data.lotInfo?.zoning,
+          apn: payload.data.lotInfo?.apn || null,
+          apnUnformatted: payload.data.lotInfo?.apnUnformatted || null,
+          censusBlock: payload.data.lotInfo?.censusBlock || null,
+          censusBlockGroup: payload.data.lotInfo?.censusBlockGroup || null,
+          censusTract: payload.data.lotInfo?.censusTract || null,
+          landUse: payload.data.lotInfo?.landUse || null,
+          legalDescription: payload.data.lotInfo?.legalDescription || null,
+          legalSection: payload.data.lotInfo?.legalSection || null,
+          lotAcres: payload.data.lotInfo?.lotAcres || null,
+          lotNumber: payload.data.lotInfo?.lotNumber || null,
+          lotSquareFeet: payload.data.lotInfo?.lotSquareFeet || null,
+          propertyClass: payload.data.lotInfo?.propertyClass || null,
+          propertyUse: payload.data.lotInfo?.propertyUse || null,
+          subdivision: payload.data.lotInfo?.subdivision || null,
+          zoning: payload.data.lotInfo?.zoning || null,
         };
   
         // Dynamically generate keys and placeholders
@@ -530,19 +532,19 @@ app.post("/api/property-detail", async (req, res) => {
 
         return {
           propertyId: mls?.propertyId, // Assuming propertyId is available in each MLS history
-          agentEmail: mls?.agentEmail,
-          agentName: mls?.agentName,
-          agentOffice: mls?.agentOffice,
-          agentPhone: mls?.agentPhone,
-          baths: mls?.baths,
-          beds: mls?.beds,
-          daysOnMarket: mls?.daysOnMarket,
+          agentEmail: mls?.agentEmail || null,
+          agentName: mls?.agentName || null,
+          agentOffice: mls?.agentOffice || null,
+          agentPhone: mls?.agentPhone || null,
+          baths: mls?.baths || null,
+          beds: mls?.beds || null,
+          daysOnMarket: mls?.daysOnMarket || null,
           lastStatusDate: mls?.lastStatusDate?.split("T")[0], // Format date to YYYY-MM-DD
-          price: mls?.price,
-          seqNo: mls?.seqNo,
-          status: mls?.status,
+          price: mls?.price || null,
+          seqNo: mls?.seqNo || null,
+          status: mls?.status || null,
           statusDate: mls?.statusDate?.split("T")[0], // Format date to YYYY-MM-DD
-          type: mls?.type,
+          type: mls?.type || null,
         };
       });
 
@@ -605,23 +607,23 @@ app.post("/api/property-detail", async (req, res) => {
 
           return {
             propertyId: payload.data?.id,
-            book: sale?.book,
-            page: sale?.page,
-            documentNumber: sale?.documentNumber,
+            book: sale?.book || null,
+            page: sale?.page || null,
+            documentNumber: sale?.documentNumber || null,
             armsLength: sale?.armsLength,
-            buyerNames: sale?.buyerNames,
-            documentType: sale?.documentType,
-            documentTypeCode: sale?.documentTypeCode,
-            downPayment: sale?.downPayment,
-            ltv: sale?.ltv,
+            buyerNames: sale?.buyerNames || null,
+            documentType: sale?.documentType || null,
+            documentTypeCode: sale?.documentTypeCode || null,
+            downPayment: sale?.downPayment || null,
+            ltv: sale?.ltv || null,
             ownerIndividual: sale?.ownerIndividual,
-            purchaseMethod: sale?.purchaseMethod,
+            purchaseMethod: sale?.purchaseMethod || null,
             recordingDate: sale?.recordingDate?.split("T")[0], // Format date to YYYY-MM-DD
-            saleAmount: sale?.saleAmount,
+            saleAmount: sale?.saleAmount || null,
             saleDate: sale?.saleDate?.split("T")[0], // Format date to YYYY-MM-DD
-            sellerNames: sale?.sellerNames,
-            seqNo: sale?.seqNo,
-            transactionType: sale?.transactionType,
+            sellerNames: sale?.sellerNames || null,
+            seqNo: sale?.seqNo || null,
+            transactionType: sale?.transactionType || null,
           };
         });
 
@@ -690,21 +692,21 @@ app.post("/api/property-detail", async (req, res) => {
 
           return {
             propertyId: payload.data?.id, // Assuming propertyId is available in payload.data
-            city: school?.city,
-            enrollment: school?.enrollment,
-            grades: school?.grades,
+            city: school?.city || null,
+            enrollment: school?.enrollment || null,
+            grades: school?.grades || null,
             elementary: school?.levels?.elementary,
             high: school?.levels?.high,
             middle: school?.levels?.middle,
             preschool: school?.levels?.preschool,
-            location: school?.location,
-            name: school?.name,
-            parentRating: school?.parentRating,
-            rating: school?.rating,
-            state: school?.state,
-            street: school?.street,
-            type: school?.type,
-            zip: school?.zip,
+            location: school?.location || null,
+            name: school?.name || null,
+            parentRating: school?.parentRating || null,
+            rating: school?.rating || null,
+            state: school?.state || null,
+            street: school?.street || null,
+            type: school?.type || null,
+            zip: school?.zip || null,
           };
         });
 
@@ -760,24 +762,24 @@ app.post("/api/property-detail", async (req, res) => {
       if (payload.data?.propertyInfo?.address) {
         const propertyAddress = {
           propertyId: payload.data?.id,
-          address: payload.data.propertyInfo?.address?.address,
-          carrierRoute: payload.data.propertyInfo?.address?.carrierRoute,
-          city: payload.data.propertyInfo?.address?.city,
+          address: payload.data.propertyInfo?.address?.address || null,
+          carrierRoute: payload.data.propertyInfo?.address?.carrierRoute || null,
+          city: payload.data.propertyInfo?.address?.city || null,
           congressionalDistrict:
-            payload.data.propertyInfo?.address?.congressionalDistrict,
-          county: payload.data.propertyInfo?.address?.county,
-          fips: payload.data.propertyInfo?.address?.fips,
-          house: payload.data.propertyInfo?.address?.house,
-          jurisdiction: payload.data.propertyInfo?.address?.jurisdiction,
-          label: payload.data.propertyInfo?.address?.label,
-          preDirection: payload.data.propertyInfo?.address?.preDirection,
-          state: payload.data.propertyInfo?.address?.state,
-          street: payload.data.propertyInfo?.address?.street,
-          streetType: payload.data.propertyInfo?.address?.streetType,
-          unit: payload.data.propertyInfo?.address?.unit,
-          unitType: payload.data.propertyInfo?.address?.unitType,
-          zip: payload.data.propertyInfo?.address?.zip,
-          zip4: payload.data.propertyInfo?.address?.zip4,
+            payload.data.propertyInfo?.address?.congressionalDistrict || null,
+          county: payload.data.propertyInfo?.address?.county || null,
+          fips: payload.data.propertyInfo?.address?.fips || null,
+          house: payload.data.propertyInfo?.address?.house || null,
+          jurisdiction: payload.data.propertyInfo?.address?.jurisdiction || null,
+          label: payload.data.propertyInfo?.address?.label || null,
+          preDirection: payload.data.propertyInfo?.address?.preDirection || null,
+          state: payload.data.propertyInfo?.address?.state || null,
+          street: payload.data.propertyInfo?.address?.street || null,
+          streetType: payload.data.propertyInfo?.address?.streetType || null,
+          unit: payload.data.propertyInfo?.address?.unit || null,
+          unitType: payload.data.propertyInfo?.address?.unitType || null,
+          zip: payload.data.propertyInfo?.address?.zip || null,
+          zip4: payload.data.propertyInfo?.address?.zip4 || null,
         };
 
         const addressKeys = Object.keys(propertyAddress).join(", ");
@@ -803,64 +805,64 @@ app.post("/api/property-detail", async (req, res) => {
       if (payload.data?.propertyInfo) {
         const propertyInfo = {
           propertyId: payload.data?.id,
-          airConditioningType: payload.data.propertyInfo?.airConditioningType,
+          airConditioningType: payload.data.propertyInfo?.airConditioningType || null,
           attic: payload.data.propertyInfo?.attic,
           basementFinishedPercent:
-            payload.data.propertyInfo?.basementFinishedPercent,
-          basementSquareFeet: payload.data.propertyInfo?.basementSquareFeet,
+            payload.data.propertyInfo?.basementFinishedPercent || null,
+          basementSquareFeet: payload.data.propertyInfo?.basementSquareFeet || null,
           basementSquareFeetFinished:
-            payload.data.propertyInfo?.basementSquareFeetFinished,
+            payload.data.propertyInfo?.basementSquareFeetFinished || null,
           basementSquareFeetUnfinished:
-            payload.data.propertyInfo?.basementSquareFeetUnfinished,
-          basementType: payload.data.propertyInfo?.basementType,
-          bathrooms: payload.data.propertyInfo?.bathrooms,
-          bedrooms: payload.data.propertyInfo?.bedrooms,
+            payload.data.propertyInfo?.basementSquareFeetUnfinished || null,
+          basementType: payload.data.propertyInfo?.basementType || null,
+          bathrooms: payload.data.propertyInfo?.bathrooms || null,
+          bedrooms: payload.data.propertyInfo?.bedrooms || null,
           breezeway: payload.data.propertyInfo?.breezeway,
-          buildingSquareFeet: payload.data.propertyInfo?.buildingSquareFeet,
-          buildingsCount: payload.data.propertyInfo?.buildingsCount,
+          buildingSquareFeet: payload.data.propertyInfo?.buildingSquareFeet || null,
+          buildingsCount: payload.data.propertyInfo?.buildingsCount || null,
           carport: payload.data.propertyInfo?.carport,
-          construction: payload.data.propertyInfo?.construction,
-          deck: payload.data.propertyInfo?.deck,
-          deckArea: payload.data.propertyInfo?.deckArea,
+          construction: payload.data.propertyInfo?.construction || null,
+          deck: payload.data.propertyInfo?.deck || null,
+          deckArea: payload.data.propertyInfo?.deckArea || null,
           featureBalcony: payload.data.propertyInfo?.featureBalcony,
           fireplace: payload.data.propertyInfo?.fireplace,
-          fireplaces: payload.data.propertyInfo?.fireplaces,
-          garageSquareFeet: payload.data.propertyInfo?.garageSquareFeet,
-          garageType: payload.data.propertyInfo?.garageType,
-          heatingFuelType: payload.data.propertyInfo?.heatingFuelType,
-          heatingType: payload.data.propertyInfo?.heatingType,
-          hoa: payload.data.propertyInfo?.hoa,
-          interiorStructure: payload.data.propertyInfo?.interiorStructure,
-          latitude: payload.data.propertyInfo?.latitude,
-          livingSquareFeet: payload.data.propertyInfo?.livingSquareFeet,
-          longitude: payload.data.propertyInfo?.longitude,
-          lotSquareFeet: payload.data.propertyInfo?.lotSquareFeet,
-          parcelAccountNumber: payload.data.propertyInfo?.parcelAccountNumber,
-          parkingSpaces: payload.data.propertyInfo?.parkingSpaces,
-          partialBathrooms: payload.data.propertyInfo?.partialBathrooms,
+          fireplaces: payload.data.propertyInfo?.fireplaces || null,
+          garageSquareFeet: payload.data.propertyInfo?.garageSquareFeet || null,
+          garageType: payload.data.propertyInfo?.garageType || null,
+          heatingFuelType: payload.data.propertyInfo?.heatingFuelType || null,
+          heatingType: payload.data.propertyInfo?.heatingType || null,
+          hoa: payload.data.propertyInfo?.hoa || null,
+          interiorStructure: payload.data.propertyInfo?.interiorStructure || null,
+          latitude: payload.data.propertyInfo?.latitude || null,
+          livingSquareFeet: payload.data.propertyInfo?.livingSquareFeet || null,
+          longitude: payload.data.propertyInfo?.longitude || null,
+          lotSquareFeet: payload.data.propertyInfo?.lotSquareFeet || null,
+          parcelAccountNumber: payload.data.propertyInfo?.parcelAccountNumber || null,
+          parkingSpaces: payload.data.propertyInfo?.parkingSpaces || null,
+          partialBathrooms: payload.data.propertyInfo?.partialBathrooms || null,
           patio: payload.data.propertyInfo?.patio,
-          patioArea: payload.data.propertyInfo?.patioArea,
+          patioArea: payload.data.propertyInfo?.patioArea || null,
           plumbingFixturesCount:
-            payload.data.propertyInfo?.plumbingFixturesCount,
-          pool: payload.data.propertyInfo?.pool,
-          poolArea: payload.data.propertyInfo?.poolArea,
-          porchArea: payload.data.propertyInfo?.porchArea,
-          porchType: payload.data.propertyInfo?.porchType,
-          pricePerSquareFoot: payload.data.propertyInfo?.pricePerSquareFoot,
-          propertyUse: payload.data.propertyInfo?.propertyUse,
-          propertyUseCode: payload.data.propertyInfo?.propertyUseCode,
-          roofConstruction: payload.data.propertyInfo?.roofConstruction,
-          roofMaterial: payload.data.propertyInfo?.roofMaterial,
-          roomsCount: payload.data.propertyInfo?.roomsCount,
+            payload.data.propertyInfo?.plumbingFixturesCount || null,
+          pool: payload.data.propertyInfo?.pool || null,
+          poolArea: payload.data.propertyInfo?.poolArea || null,
+          porchArea: payload.data.propertyInfo?.porchArea || null,
+          porchType: payload.data.propertyInfo?.porchType || null,
+          pricePerSquareFoot: payload.data.propertyInfo?.pricePerSquareFoot || null,
+          propertyUse: payload.data.propertyInfo?.propertyUse || null,
+          propertyUseCode: payload.data.propertyInfo?.propertyUseCode || null,
+          roofConstruction: payload.data.propertyInfo?.roofConstruction || null,
+          roofMaterial: payload.data.propertyInfo?.roofMaterial || null,
+          roomsCount: payload.data.propertyInfo?.roomsCount || null,
           rvParking: payload.data.propertyInfo?.rvParking,
           safetyFireSprinklers: payload.data.propertyInfo?.safetyFireSprinklers,
-          stories: payload.data.propertyInfo?.stories,
+          stories: payload.data.propertyInfo?.stories || null,
           taxExemptionHomeownerFlag:
             payload.data.propertyInfo?.taxExemptionHomeownerFlag,
-          unitsCount: payload.data.propertyInfo?.unitsCount,
-          utilitiesSewageUsage: payload.data.propertyInfo?.utilitiesSewageUsage,
-          utilitiesWaterSource: payload.data.propertyInfo?.utilitiesWaterSource,
-          yearBuilt: payload.data.propertyInfo?.yearBuilt,
+          unitsCount: payload.data.propertyInfo?.unitsCount || null,
+          utilitiesSewageUsage: payload.data.propertyInfo?.utilitiesSewageUsage || null,
+          utilitiesWaterSource: payload.data.propertyInfo?.utilitiesWaterSource || null,
+          yearBuilt: payload.data.propertyInfo?.yearBuilt || null,
         };
 
         const propertyInfoKeys = Object.keys(propertyInfo).join(", ");
@@ -887,10 +889,10 @@ app.post("/api/property-detail", async (req, res) => {
       if (payload.data?.neighborhood) {
         const neighborhood = {
           propertyId: payload.data?.id,
-          center: payload.data.neighborhood?.center,
-          neighborhoodIdExternal: payload.data.neighborhood?.id, // External neighborhood ID
-          name: payload.data.neighborhood?.name,
-          type: payload.data.neighborhood?.type,
+          center: payload.data.neighborhood?.center || null,
+          neighborhoodIdExternal: payload.data.neighborhood?.id || null, // External neighborhood ID
+          name: payload.data.neighborhood?.name || null,
+          type: payload.data.neighborhood?.type || null,
         };
 
         const query = `
@@ -930,29 +932,29 @@ app.post("/api/property-detail", async (req, res) => {
 
           return {
             propertyId: payload.data?.id,
-            active: foreclosure?.active,
+            active: foreclosure?.active || null,
             auctionDate: foreclosure?.auctionDate?.split("T")[0], // Format date to YYYY-MM-DD
-            auctionStreetAddress: foreclosure?.auctionStreetAddress,
-            auctionTime: foreclosure?.auctionTime,
-            caseNumber: foreclosure?.caseNumber,
-            defaultAmount: foreclosure?.defaultAmount,
-            documentType: foreclosure?.documentType,
-            estimatedBankValue: foreclosure?.estimatedBankValue,
-            foreclosureId: foreclosure?.foreclosureId,
-            judgmentAmount: foreclosure?.judgmentAmount,
+            auctionStreetAddress: foreclosure?.auctionStreetAddress || null,
+            auctionTime: foreclosure?.auctionTime || null,
+            caseNumber: foreclosure?.caseNumber || null,
+            defaultAmount: foreclosure?.defaultAmount || null,
+            documentType: foreclosure?.documentType || null,
+            estimatedBankValue: foreclosure?.estimatedBankValue || null,
+            foreclosureId: foreclosure?.foreclosureId || null,
+            judgmentAmount: foreclosure?.judgmentAmount || null,
             judgmentDate: foreclosure?.judgmentDate?.split("T")[0], // Format date to YYYY-MM-DD
-            lenderName: foreclosure?.lenderName,
-            lenderPhone: foreclosure?.lenderPhone,
-            noticeType: foreclosure?.noticeType,
-            openingBid: foreclosure?.openingBid,
-            originalLoanAmount: foreclosure?.originalLoanAmount,
+            lenderName: foreclosure?.lenderName || null,
+            lenderPhone: foreclosure?.lenderPhone || null,
+            noticeType: foreclosure?.noticeType || null,
+            openingBid: foreclosure?.openingBid || null,
+            originalLoanAmount: foreclosure?.originalLoanAmount || null,
             recordingDate: foreclosure?.recordingDate?.split("T")[0], // Format date to YYYY-MM-DD
-            seqNo: foreclosure?.seqNo,
-            trusteeAddress: foreclosure?.trusteeAddress,
-            trusteeFullName: foreclosure?.trusteeFullName,
-            trusteePhone: foreclosure?.trusteePhone,
-            trusteeSaleNumber: foreclosure?.trusteeSaleNumber,
-            typeName: foreclosure?.typeName,
+            seqNo: foreclosure?.seqNo || null,
+            trusteeAddress: foreclosure?.trusteeAddress || null,
+            trusteeFullName: foreclosure?.trusteeFullName || null,
+            trusteePhone: foreclosure?.trusteePhone || null,
+            trusteeSaleNumber: foreclosure?.trusteeSaleNumber || null,
+            typeName: foreclosure?.typeName || null,
           };
         });
 
@@ -1016,17 +1018,17 @@ app.post("/api/property-detail", async (req, res) => {
         const taxInfo = {
           propertyId: payload.data?.id,
           assessedImprovementValue:
-            payload.data.taxInfo?.assessedImprovementValue,
-          assessedLandValue: payload.data.taxInfo?.assessedLandValue,
-          assessedValue: payload.data.taxInfo?.assessedValue,
-          assessmentYear: payload.data.taxInfo?.assessmentYear,
-          estimatedValue: payload.data.taxInfo?.estimatedValue,
-          marketImprovementValue: payload.data.taxInfo?.marketImprovementValue,
-          marketLandValue: payload.data.taxInfo?.marketLandValue,
-          marketValue: payload.data.taxInfo?.marketValue,
-          taxAmount: payload.data.taxInfo?.taxAmount,
-          taxDelinquentYear: payload.data.taxInfo?.taxDelinquentYear,
-          year: payload.data.taxInfo?.year,
+            payload.data.taxInfo?.assessedImprovementValue || null,
+          assessedLandValue: payload.data.taxInfo?.assessedLandValue || null,
+          assessedValue: payload.data.taxInfo?.assessedValue || null,
+          assessmentYear: payload.data.taxInfo?.assessmentYear || null,
+          estimatedValue: payload.data.taxInfo?.estimatedValue || null,
+          marketImprovementValue: payload.data.taxInfo?.marketImprovementValue || null,
+          marketLandValue: payload.data.taxInfo?.marketLandValue || null,
+          marketValue: payload.data.taxInfo?.marketValue || null,
+          taxAmount: payload.data.taxInfo?.taxAmount || null,
+          taxDelinquentYear: payload.data.taxInfo?.taxDelinquentYear || null,
+          year: payload.data.taxInfo?.year || null,
         };
 
         const taxInfoKeys = Object.keys(taxInfo).join(", ");
@@ -1054,31 +1056,31 @@ app.post("/api/property-detail", async (req, res) => {
       if (payload.data?.ownerInfo) {
         const ownerInfo = {
           propertyId: payload.data?.id,
-          absenteeOwner: payload.data.ownerInfo?.absenteeOwner,
-          companyName: payload.data.ownerInfo?.companyName,
-          corporateOwned: payload.data.ownerInfo?.corporateOwned,
-          equity: payload.data.ownerInfo?.equity,
-          inStateAbsenteeOwner: payload.data.ownerInfo?.inStateAbsenteeOwner,
+          absenteeOwner: payload.data.ownerInfo?.absenteeOwner || null,
+          companyName: payload.data.ownerInfo?.companyName || null,
+          corporateOwned: payload.data.ownerInfo?.corporateOwned || null,
+          equity: payload.data.ownerInfo?.equity || null,
+          inStateAbsenteeOwner: payload.data.ownerInfo?.inStateAbsenteeOwner || null,
           outOfStateAbsenteeOwner:
-            payload.data.ownerInfo?.outOfStateAbsenteeOwner,
-          owner1FirstName: payload.data.ownerInfo?.owner1FirstName,
-          owner1FullName: payload.data.ownerInfo?.owner1FullName,
-          owner1LastName: payload.data.ownerInfo?.owner1LastName,
-          owner1Type: payload.data.ownerInfo?.owner1Type,
-          owner2FirstName: payload.data.ownerInfo?.owner2FirstName,
-          owner2FullName: payload.data.ownerInfo?.owner2FullName,
-          owner2LastName: payload.data.ownerInfo?.owner2LastName,
-          owner2Type: payload.data.ownerInfo?.owner2Type,
-          owner3FirstName: payload.data.ownerInfo?.owner1FirstName,
-          owner3FullName: payload.data.ownerInfo?.owner1FullName,
-          owner3LastName: payload.data.ownerInfo?.owner1LastName,
-          owner3Type: payload.data.ownerInfo?.owner1Type,
-          owner4FirstName: payload.data.ownerInfo?.owner1FirstName,
-          owner4FullName: payload.data.ownerInfo?.owner1FullName,
-          owner4LastName: payload.data.ownerInfo?.owner1LastName,
-          owner4Type: payload.data.ownerInfo?.owner1Type,
-          ownerOccupied: payload.data.ownerInfo?.ownerOccupied,
-          ownershipLength: payload.data.ownerInfo?.ownershipLength,
+            payload.data.ownerInfo?.outOfStateAbsenteeOwner || null,
+          owner1FirstName: payload.data.ownerInfo?.owner1FirstName || null,
+          owner1FullName: payload.data.ownerInfo?.owner1FullName || null,
+          owner1LastName: payload.data.ownerInfo?.owner1LastName || null,
+          owner1Type: payload.data.ownerInfo?.owner1Type || null,
+          owner2FirstName: payload.data.ownerInfo?.owner2FirstName || null,
+          owner2FullName: payload.data.ownerInfo?.owner2FullName || null,
+          owner2LastName: payload.data.ownerInfo?.owner2LastName || null,
+          owner2Type: payload.data.ownerInfo?.owner2Type || null,
+          owner3FirstName: payload.data.ownerInfo?.owner1FirstName || null,
+          owner3FullName: payload.data.ownerInfo?.owner1FullName || null,
+          owner3LastName: payload.data.ownerInfo?.owner1LastName || null,
+          owner3Type: payload.data.ownerInfo?.owner1Type || null,
+          owner4FirstName: payload.data.ownerInfo?.owner1FirstName || null,
+          owner4FullName: payload.data.ownerInfo?.owner1FullName || null,
+          owner4LastName: payload.data.ownerInfo?.owner1LastName || null,
+          owner4Type: payload.data.ownerInfo?.owner1Type || null,
+          ownerOccupied: payload.data.ownerInfo?.ownerOccupied || null,
+          ownershipLength: payload.data.ownerInfo?.ownershipLength || null,
         };
 
         const ownerInfoKeys = Object.keys(ownerInfo).join(", ");
