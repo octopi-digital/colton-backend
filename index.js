@@ -757,19 +757,16 @@ app.post("/api/property-detail", async (req, res) => {
         const propertyAddress = {
           propertyId: payload.data?.id,
           address: payload.data.propertyInfo?.address?.address,
-          carrierRoute:
-            payload.data.propertyInfo?.address?.carrierRoute,
+          carrierRoute: payload.data.propertyInfo?.address?.carrierRoute,
           city: payload.data.propertyInfo?.address?.city,
           congressionalDistrict:
             payload.data.propertyInfo?.address?.congressionalDistrict,
           county: payload.data.propertyInfo?.address?.county,
           fips: payload.data.propertyInfo?.address?.fips,
           house: payload.data.propertyInfo?.address?.house,
-          jurisdiction:
-            payload.data.propertyInfo?.address?.jurisdiction,
+          jurisdiction: payload.data.propertyInfo?.address?.jurisdiction,
           label: payload.data.propertyInfo?.address?.label,
-          preDirection:
-            payload.data.propertyInfo?.address?.preDirection,
+          preDirection: payload.data.propertyInfo?.address?.preDirection,
           state: payload.data.propertyInfo?.address?.state,
           street: payload.data.propertyInfo?.address?.street,
           streetType: payload.data.propertyInfo?.address?.streetType,
@@ -802,13 +799,11 @@ app.post("/api/property-detail", async (req, res) => {
       if (payload.data?.propertyInfo) {
         const propertyInfo = {
           propertyId: payload.data?.id,
-          airConditioningType:
-            payload.data.propertyInfo?.airConditioningType,
+          airConditioningType: payload.data.propertyInfo?.airConditioningType,
           attic: payload.data.propertyInfo?.attic,
           basementFinishedPercent:
             payload.data.propertyInfo?.basementFinishedPercent,
-          basementSquareFeet:
-            payload.data.propertyInfo?.basementSquareFeet,
+          basementSquareFeet: payload.data.propertyInfo?.basementSquareFeet,
           basementSquareFeetFinished:
             payload.data.propertyInfo?.basementSquareFeetFinished,
           basementSquareFeetUnfinished:
@@ -817,8 +812,7 @@ app.post("/api/property-detail", async (req, res) => {
           bathrooms: payload.data.propertyInfo?.bathrooms,
           bedrooms: payload.data.propertyInfo?.bedrooms,
           breezeway: payload.data.propertyInfo?.breezeway,
-          buildingSquareFeet:
-            payload.data.propertyInfo?.buildingSquareFeet,
+          buildingSquareFeet: payload.data.propertyInfo?.buildingSquareFeet,
           buildingsCount: payload.data.propertyInfo?.buildingsCount,
           carport: payload.data.propertyInfo?.carport,
           construction: payload.data.propertyInfo?.construction,
@@ -832,14 +826,12 @@ app.post("/api/property-detail", async (req, res) => {
           heatingFuelType: payload.data.propertyInfo?.heatingFuelType,
           heatingType: payload.data.propertyInfo?.heatingType,
           hoa: payload.data.propertyInfo?.hoa,
-          interiorStructure:
-            payload.data.propertyInfo?.interiorStructure,
+          interiorStructure: payload.data.propertyInfo?.interiorStructure,
           latitude: payload.data.propertyInfo?.latitude,
           livingSquareFeet: payload.data.propertyInfo?.livingSquareFeet,
           longitude: payload.data.propertyInfo?.longitude,
           lotSquareFeet: payload.data.propertyInfo?.lotSquareFeet,
-          parcelAccountNumber:
-            payload.data.propertyInfo?.parcelAccountNumber,
+          parcelAccountNumber: payload.data.propertyInfo?.parcelAccountNumber,
           parkingSpaces: payload.data.propertyInfo?.parkingSpaces,
           partialBathrooms: payload.data.propertyInfo?.partialBathrooms,
           patio: payload.data.propertyInfo?.patio,
@@ -850,24 +842,20 @@ app.post("/api/property-detail", async (req, res) => {
           poolArea: payload.data.propertyInfo?.poolArea,
           porchArea: payload.data.propertyInfo?.porchArea,
           porchType: payload.data.propertyInfo?.porchType,
-          pricePerSquareFoot:
-            payload.data.propertyInfo?.pricePerSquareFoot,
+          pricePerSquareFoot: payload.data.propertyInfo?.pricePerSquareFoot,
           propertyUse: payload.data.propertyInfo?.propertyUse,
           propertyUseCode: payload.data.propertyInfo?.propertyUseCode,
           roofConstruction: payload.data.propertyInfo?.roofConstruction,
           roofMaterial: payload.data.propertyInfo?.roofMaterial,
           roomsCount: payload.data.propertyInfo?.roomsCount,
           rvParking: payload.data.propertyInfo?.rvParking,
-          safetyFireSprinklers:
-            payload.data.propertyInfo?.safetyFireSprinklers,
+          safetyFireSprinklers: payload.data.propertyInfo?.safetyFireSprinklers,
           stories: payload.data.propertyInfo?.stories,
           taxExemptionHomeownerFlag:
             payload.data.propertyInfo?.taxExemptionHomeownerFlag,
           unitsCount: payload.data.propertyInfo?.unitsCount,
-          utilitiesSewageUsage:
-            payload.data.propertyInfo?.utilitiesSewageUsage,
-          utilitiesWaterSource:
-            payload.data.propertyInfo?.utilitiesWaterSource,
+          utilitiesSewageUsage: payload.data.propertyInfo?.utilitiesSewageUsage,
+          utilitiesWaterSource: payload.data.propertyInfo?.utilitiesWaterSource,
           yearBuilt: payload.data.propertyInfo?.yearBuilt,
         };
 
@@ -932,11 +920,11 @@ app.post("/api/property-detail", async (req, res) => {
       //foreClosereInfo
       if (payload.data?.foreclosureInfo) {
         const foreclosureInfoData = payload.data.foreclosureInfo || {};
-      
+
         // Extract all foreclosure records dynamically
         const allForeclosures = Object.keys(foreclosureInfoData).map((key) => {
           const foreclosure = foreclosureInfoData[key];
-      
+
           return {
             propertyId: payload.data?.id,
             active: foreclosure?.active,
@@ -964,7 +952,7 @@ app.post("/api/property-detail", async (req, res) => {
             typeName: foreclosure?.typeName,
           };
         });
-      
+
         // Insert each foreclosure record into the database
         for (const foreclosure of allForeclosures) {
           const query = `
@@ -976,7 +964,7 @@ app.post("/api/property-detail", async (req, res) => {
               trusteePhone, trusteeSaleNumber, typeName
             ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
           `;
-      
+
           const values = [
             foreclosure.propertyId,
             foreclosure.active,
@@ -1003,7 +991,7 @@ app.post("/api/property-detail", async (req, res) => {
             foreclosure.trusteeSaleNumber,
             foreclosure.typeName,
           ];
-      
+
           try {
             const [result] = await connection.execute(query, values);
             if (result?.affectedRows > 0) {
@@ -1018,7 +1006,7 @@ app.post("/api/property-detail", async (req, res) => {
           }
         }
       }
-      
+
       //..............................................................
       //taxHistory
       // Tax Info Data
@@ -1031,8 +1019,7 @@ app.post("/api/property-detail", async (req, res) => {
           assessedValue: payload.data.taxInfo?.assessedValue,
           assessmentYear: payload.data.taxInfo?.assessmentYear,
           estimatedValue: payload.data.taxInfo?.estimatedValue,
-          marketImprovementValue:
-            payload.data.taxInfo?.marketImprovementValue,
+          marketImprovementValue: payload.data.taxInfo?.marketImprovementValue,
           marketLandValue: payload.data.taxInfo?.marketLandValue,
           marketValue: payload.data.taxInfo?.marketValue,
           taxAmount: payload.data.taxInfo?.taxAmount,
@@ -1069,8 +1056,7 @@ app.post("/api/property-detail", async (req, res) => {
           companyName: payload.data.ownerInfo?.companyName,
           corporateOwned: payload.data.ownerInfo?.corporateOwned,
           equity: payload.data.ownerInfo?.equity,
-          inStateAbsenteeOwner:
-            payload.data.ownerInfo?.inStateAbsenteeOwner,
+          inStateAbsenteeOwner: payload.data.ownerInfo?.inStateAbsenteeOwner,
           outOfStateAbsenteeOwner:
             payload.data.ownerInfo?.outOfStateAbsenteeOwner,
           owner1FirstName: payload.data.ownerInfo?.owner1FirstName,
@@ -1164,6 +1150,9 @@ app.post("/api/property-detail", async (req, res) => {
           console.error("Error inserting owner info:", error.message);
         }
       }
+
+      // Close the database connection
+      await connection.end();
 
       //Property Return
       return;
