@@ -19,9 +19,6 @@ const dbConfig = {
   user: "home9admin_sellhome9", // Replace with your MySQL username
   password: "Sell9Home", // Replace with your MySQL password
   database: "home9admin_SellHome9", // Replace with your database name
-  waitForConnections: true,
-  connectionLimit: 10,
-  queueLimit: 0
 };
 
 // x-api-key
@@ -1324,7 +1321,6 @@ app.post("/api/property-comps", async (req, res) => {
     //...............................................................
 
     if (payload.comps) {
-      const connection = await mysql.createPool(dbConfig);
       const compsListData = payload.comps || {};
 
       const allComps = Object.keys(compsListData).map((key) => {
@@ -1344,6 +1340,8 @@ app.post("/api/property-comps", async (req, res) => {
       });
 
       for (const comps of allComps) {
+        const connection = await mysql.createConnection(dbConfig);
+
         try {
           // Insert new Comps data
           const query = `
@@ -1408,7 +1406,7 @@ app.post("/api/property-comps", async (req, res) => {
 
         try {
           const [result] = await connection.execute(
-            `SELECT 1 FROM comps WHERE propertyId = ? AND compsId = ? LIMIT 1`,
+            `SELECT * FROM comps WHERE propertyId = ? AND compsId = ?`,
             [payload.subject.id, comps.compsId]
           );
 
@@ -1444,10 +1442,12 @@ app.post("/api/property-comps", async (req, res) => {
         } catch (error) {
           console.error("Error searching comps:", error.message);
         }
+
+        // Close the database connection
+        await connection.end();
       }
 
-      // Close the database connection
-      await connection.end();
+      
 
       console.log("Success")
 
