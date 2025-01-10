@@ -1321,6 +1321,7 @@ app.post("/api/property-comps", async (req, res) => {
     //...............................................................
 
     if (payload.comps) {
+      const connection = await mysql.createConnection(dbConfig);
       const compsListData = payload.comps || {};
 
       const allComps = Object.keys(compsListData).map((key) => {
@@ -1340,8 +1341,6 @@ app.post("/api/property-comps", async (req, res) => {
       });
 
       for (const comps of allComps) {
-        const connection = await mysql.createConnection(dbConfig);
-
         try {
           // Insert new Comps data
           const query = `
@@ -1442,12 +1441,10 @@ app.post("/api/property-comps", async (req, res) => {
         } catch (error) {
           console.error("Error searching comps:", error.message);
         }
-
-        // Close the database connection
-        await connection.end();
       }
 
-      
+      // Close the database connection
+      await connection.end();
 
       console.log("Success")
 
