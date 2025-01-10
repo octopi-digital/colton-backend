@@ -304,7 +304,8 @@ app.post("/api/property-detail", async (req, res) => {
       mlsLastStatusDate: payload.data?.mlsLastStatusDate?.split("T")[0] || null, // Format date to YYYY-MM-DD
       mlsListingDate: payload.data?.mlsListingDate?.split("T")[0] || null, // Format date to YYYY-MM-DD
       mlsListingPrice: payload.data?.mlsListingPrice,
-      mlsListingPricePerSquareFoot: payload.data?.mlsListingPricePerSquareFoot || null,
+      mlsListingPricePerSquareFoot:
+        payload.data?.mlsListingPricePerSquareFoot || null,
       mlsPending: payload.data?.mlsPending,
       mlsSold: payload.data?.mlsSold,
       mlsSoldPrice: payload.data?.mlsSoldPrice,
@@ -329,7 +330,7 @@ app.post("/api/property-detail", async (req, res) => {
       warrantyDeed: payload.data?.warrantyDeed,
     };
 
-    console.log(property);
+    //console.log(property);
 
     const connection = await mysql.createConnection(dbConfig);
     const keys = Object.keys(property).join(", ");
@@ -350,45 +351,45 @@ app.post("/api/property-detail", async (req, res) => {
       console.log("Property detail data processed and inserted successfully");
       // ..................................................................................
       //Mortgage data
-      if(payload.data?.mortgageHistory){
+      if (payload.data?.mortgageHistory) {
         const mortgageHistoryData = payload.data?.mortgageHistory || {};
 
-      // Extract all mortgages dynamically
-      const allMortgages = Object.keys(mortgageHistoryData).map((key) => {
-        const mortgage = mortgageHistoryData[key]; // Access each mortgage (e.g., mortgageHistory1, mortgageHistory2)
+        // Extract all mortgages dynamically
+        const allMortgages = Object.keys(mortgageHistoryData).map((key) => {
+          const mortgage = mortgageHistoryData[key]; // Access each mortgage (e.g., mortgageHistory1, mortgageHistory2)
 
-        return {
-          propertyId: payload.data?.id, // Assuming propertyId is available in payload.data
-          amount: mortgage?.amount || null, // Dynamically extract amount
-          assumable: mortgage?.assumable || null,
-          book: mortgage?.book || null,
-          page: mortgage?.page || null,
-          documentNumber: mortgage?.documentNumber || null,
-          deedType: mortgage?.deedType || null,
-          documentDate: mortgage?.documentDate?.split("T")[0] || null, // Format date to YYYY-MM-DD
-          granteeName: mortgage?.granteeName || null,
-          interestRate: mortgage?.interestRate || null,
-          interestRateType: mortgage?.interestRateType || null,
-          lenderCode: mortgage?.lenderCode || null,
-          lenderName: mortgage?.lenderName || null,
-          lenderType: mortgage?.lenderType || null,
-          loanType: mortgage?.loanType || null,
-          loanTypeCode: mortgage?.loanTypeCode || null,
-          maturityDate: mortgage?.maturityDate?.split("T")[0], // Format date to YYYY-MM-DD
-          position: mortgage?.position || null,
-          recordingDate: mortgage?.recordingDate?.split("T")[0], // Format date to YYYY-MM-DD
-          seqNo: mortgage?.seqNo || null,
-          term: mortgage?.term || null,
-          termType: mortgage?.termType || null,
-          transactionType: mortgage?.transactionType || null,
-        };
-      });
+          return {
+            propertyId: payload.data?.id, // Assuming propertyId is available in payload.data
+            amount: mortgage?.amount || null, // Dynamically extract amount
+            assumable: mortgage?.assumable || null,
+            book: mortgage?.book || null,
+            page: mortgage?.page || null,
+            documentNumber: mortgage?.documentNumber || null,
+            deedType: mortgage?.deedType || null,
+            documentDate: mortgage?.documentDate?.split("T")[0] || null, // Format date to YYYY-MM-DD
+            granteeName: mortgage?.granteeName || null,
+            interestRate: mortgage?.interestRate || null,
+            interestRateType: mortgage?.interestRateType || null,
+            lenderCode: mortgage?.lenderCode || null,
+            lenderName: mortgage?.lenderName || null,
+            lenderType: mortgage?.lenderType || null,
+            loanType: mortgage?.loanType || null,
+            loanTypeCode: mortgage?.loanTypeCode || null,
+            maturityDate: mortgage?.maturityDate?.split("T")[0], // Format date to YYYY-MM-DD
+            position: mortgage?.position || null,
+            recordingDate: mortgage?.recordingDate?.split("T")[0], // Format date to YYYY-MM-DD
+            seqNo: mortgage?.seqNo || null,
+            term: mortgage?.term || null,
+            termType: mortgage?.termType || null,
+            transactionType: mortgage?.transactionType || null,
+          };
+        });
 
-      //console.log(allMortgages);
+        //console.log(allMortgages);
 
-      // Insert each mortgage into the database
-      for (const mortgage of allMortgages) {
-        const query = `
+        // Insert each mortgage into the database
+        for (const mortgage of allMortgages) {
+          const query = `
         INSERT INTO mortgageHistory (
           propertyId, amount, assumable, book, page, documentNumber, deedType,
           documentDate, granteeName, interestRate, interestRateType, lenderCode,
@@ -396,49 +397,49 @@ app.post("/api/property-detail", async (req, res) => {
           recordingDate, seqNo, term, termType, transactionType
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
-        const values = [
-          mortgage.propertyId,
-          mortgage.amount,
-          mortgage.assumable,
-          mortgage.book,
-          mortgage.page,
-          mortgage.documentNumber,
-          mortgage.deedType,
-          mortgage.documentDate,
-          mortgage.granteeName,
-          mortgage.interestRate,
-          mortgage.interestRateType,
-          mortgage.lenderCode,
-          mortgage.lenderName,
-          mortgage.lenderType,
-          mortgage.loanType,
-          mortgage.loanTypeCode,
-          mortgage.maturityDate,
-          mortgage.position,
-          mortgage.recordingDate,
-          mortgage.seqNo,
-          mortgage.term,
-          mortgage.termType,
-          mortgage.transactionType,
-        ];
+          const values = [
+            mortgage.propertyId,
+            mortgage.amount,
+            mortgage.assumable,
+            mortgage.book,
+            mortgage.page,
+            mortgage.documentNumber,
+            mortgage.deedType,
+            mortgage.documentDate,
+            mortgage.granteeName,
+            mortgage.interestRate,
+            mortgage.interestRateType,
+            mortgage.lenderCode,
+            mortgage.lenderName,
+            mortgage.lenderType,
+            mortgage.loanType,
+            mortgage.loanTypeCode,
+            mortgage.maturityDate,
+            mortgage.position,
+            mortgage.recordingDate,
+            mortgage.seqNo,
+            mortgage.term,
+            mortgage.termType,
+            mortgage.transactionType,
+          ];
 
-        console.log(values)
+          //console.log(values)
 
-        // Execute the query
-        const [result] = await connection.execute(query, values);
-        if (result !== null) {
-          console.log(
-            `Inserted mortgage with ID: ${mortgage.mortgageId}, DB ID: ${result.insertId}`
-          );
-        } else {
-          console.log("Mortgage data insert error");
+          // Execute the query
+          const [result] = await connection.execute(query, values);
+          if (result !== null) {
+            console.log(
+              `Inserted mortgage with ID: ${mortgage.mortgageId}, DB ID: ${result.insertId}`
+            );
+          } else {
+            console.log("Mortgage data insert error");
+          }
         }
-      }
       }
 
       // ..................................................................................
       //Demographics data
-      if(payload.data?.demographics){
+      if (payload.data?.demographics) {
         const demographics = {
           propertyId: payload.data?.id,
           fmrEfficiency: payload.data.demographics?.fmrEfficiency || null,
@@ -452,15 +453,15 @@ app.post("/api/property-detail", async (req, res) => {
           medianIncome: payload.data.demographics?.medianIncome || null,
           suggestedRent: payload.data.demographics?.suggestedRent || null,
         };
-  
+
         const demographicsKeys = Object.keys(demographics).join(", ");
         const demographicsKeysPlaceholders = Object.keys(demographics)
           .map(() => "?")
           .join(", ");
         const values = Object.values(demographics);
-  
+
         const query = `INSERT INTO demographics (${demographicsKeys}) VALUES (${demographicsKeysPlaceholders})`;
-  
+
         // Execute the query
         const [result] = await connection.execute(query, values);
         if (result !== null) {
@@ -469,11 +470,10 @@ app.post("/api/property-detail", async (req, res) => {
           console.log("demographics data insert error");
         }
       }
-      
 
       //.........................................................................
       // LotInfo data
-      if(payload.data?.lotInfo){
+      if (payload.data?.lotInfo) {
         const lotInfo = {
           propertyId: payload.data?.id,
           apn: payload.data.lotInfo?.apn || null,
@@ -492,20 +492,23 @@ app.post("/api/property-detail", async (req, res) => {
           subdivision: payload.data.lotInfo?.subdivision || null,
           zoning: payload.data.lotInfo?.zoning || null,
         };
-  
+
         // Dynamically generate keys and placeholders
         const lotInfoKeys = Object.keys(lotInfo).join(", ");
         const lotInfoKeysPlaceholders = Object.keys(lotInfo)
           .map(() => "?")
           .join(", ");
         const lotInfoValues = Object.values(lotInfo);
-  
+
         // Prepare the query
         const lotInfoQuery = `INSERT INTO lotInfo (${lotInfoKeys}) VALUES (${lotInfoKeysPlaceholders})`;
-  
+
         try {
           // Execute the query
-          const [result] = await connection.execute(lotInfoQuery, lotInfoValues);
+          const [result] = await connection.execute(
+            lotInfoQuery,
+            lotInfoValues
+          );
           if (result?.affectedRows > 0) {
             console.log(`Inserted lotInfo with DB ID: ${result.insertId}`);
           } else {
@@ -523,77 +526,77 @@ app.post("/api/property-detail", async (req, res) => {
 
       //......................................................
       //mlsHistory
-      if(payload.data?.mlsHistory){
+      if (payload.data?.mlsHistory) {
         const mlsHistoryData = payload.data.mlsHistory || {};
 
-      // Extract all mortgages dynamically
-      const allMlsHistory = Object.keys(mlsHistoryData).map((key) => {
-        const mls = mlsHistoryData[key]; // Access each mlsHistory (e.g., mlsHistory1, mlsHistory2)
+        // Extract all mortgages dynamically
+        const allMlsHistory = Object.keys(mlsHistoryData).map((key) => {
+          const mls = mlsHistoryData[key]; // Access each mlsHistory (e.g., mlsHistory1, mlsHistory2)
 
-        return {
-          propertyId: mls?.propertyId, // Assuming propertyId is available in each MLS history
-          agentEmail: mls?.agentEmail || null,
-          agentName: mls?.agentName || null,
-          agentOffice: mls?.agentOffice || null,
-          agentPhone: mls?.agentPhone || null,
-          baths: mls?.baths || null,
-          beds: mls?.beds || null,
-          daysOnMarket: mls?.daysOnMarket || null,
-          lastStatusDate: mls?.lastStatusDate?.split("T")[0], // Format date to YYYY-MM-DD
-          price: mls?.price || null,
-          seqNo: mls?.seqNo || null,
-          status: mls?.status || null,
-          statusDate: mls?.statusDate?.split("T")[0], // Format date to YYYY-MM-DD
-          type: mls?.type || null,
-        };
-      });
+          return {
+            propertyId: mls?.propertyId, // Assuming propertyId is available in each MLS history
+            agentEmail: mls?.agentEmail || null,
+            agentName: mls?.agentName || null,
+            agentOffice: mls?.agentOffice || null,
+            agentPhone: mls?.agentPhone || null,
+            baths: mls?.baths || null,
+            beds: mls?.beds || null,
+            daysOnMarket: mls?.daysOnMarket || null,
+            lastStatusDate: mls?.lastStatusDate?.split("T")[0], // Format date to YYYY-MM-DD
+            price: mls?.price || null,
+            seqNo: mls?.seqNo || null,
+            status: mls?.status || null,
+            statusDate: mls?.statusDate?.split("T")[0], // Format date to YYYY-MM-DD
+            type: mls?.type || null,
+          };
+        });
 
-      //console.log(allMortgages);
+        //console.log(allMortgages);
 
-      // Insert each mortgage into the database
-      // Insert each MLS history into the database
-      for (const mls of allMlsHistory) {
-        try {
-          const query = `
+        // Insert each mortgage into the database
+        // Insert each MLS history into the database
+        for (const mls of allMlsHistory) {
+          try {
+            const query = `
         INSERT INTO mlsHistory (
           propertyId, agentEmail, agentName, agentOffice, agentPhone, baths, beds,
           daysOnMarket, lastStatusDate, price, seqNo, status, statusDate, type
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `;
 
-          const values = [
-            mls.propertyId,
-            mls.agentEmail,
-            mls.agentName,
-            mls.agentOffice,
-            mls.agentPhone,
-            mls.baths,
-            mls.beds,
-            mls.daysOnMarket,
-            mls.lastStatusDate,
-            mls.price,
-            mls.seqNo,
-            mls.status,
-            mls.statusDate,
-            mls.type,
-          ];
+            const values = [
+              mls.propertyId,
+              mls.agentEmail,
+              mls.agentName,
+              mls.agentOffice,
+              mls.agentPhone,
+              mls.baths,
+              mls.beds,
+              mls.daysOnMarket,
+              mls.lastStatusDate,
+              mls.price,
+              mls.seqNo,
+              mls.status,
+              mls.statusDate,
+              mls.type,
+            ];
 
-          // Debug logs
-          //console.log("Values being passed to the mlsHistory query:", values);
+            // Debug logs
+            //console.log("Values being passed to the mlsHistory query:", values);
 
-          const [result] = await connection.execute(query, values);
+            const [result] = await connection.execute(query, values);
 
-          if (result?.affectedRows > 0) {
-            console.log(
-              `Inserted MLS history for propertyId: ${mls.propertyId}, DB ID: ${result.insertId}`
-            );
-          } else {
-            console.error("Failed to insert MLS history:", mls);
+            if (result?.affectedRows > 0) {
+              console.log(
+                `Inserted MLS history for propertyId: ${mls.propertyId}, DB ID: ${result.insertId}`
+              );
+            } else {
+              console.error("Failed to insert MLS history:", mls);
+            }
+          } catch (error) {
+            console.error("Error inserting MLS history:", error.message);
           }
-        } catch (error) {
-          console.error("Error inserting MLS history:", error.message);
         }
-      }
       }
 
       //.......................................
@@ -763,16 +766,19 @@ app.post("/api/property-detail", async (req, res) => {
         const propertyAddress = {
           propertyId: payload.data?.id,
           address: payload.data.propertyInfo?.address?.address || null,
-          carrierRoute: payload.data.propertyInfo?.address?.carrierRoute || null,
+          carrierRoute:
+            payload.data.propertyInfo?.address?.carrierRoute || null,
           city: payload.data.propertyInfo?.address?.city || null,
           congressionalDistrict:
             payload.data.propertyInfo?.address?.congressionalDistrict || null,
           county: payload.data.propertyInfo?.address?.county || null,
           fips: payload.data.propertyInfo?.address?.fips || null,
           house: payload.data.propertyInfo?.address?.house || null,
-          jurisdiction: payload.data.propertyInfo?.address?.jurisdiction || null,
+          jurisdiction:
+            payload.data.propertyInfo?.address?.jurisdiction || null,
           label: payload.data.propertyInfo?.address?.label || null,
-          preDirection: payload.data.propertyInfo?.address?.preDirection || null,
+          preDirection:
+            payload.data.propertyInfo?.address?.preDirection || null,
           state: payload.data.propertyInfo?.address?.state || null,
           street: payload.data.propertyInfo?.address?.street || null,
           streetType: payload.data.propertyInfo?.address?.streetType || null,
@@ -805,11 +811,13 @@ app.post("/api/property-detail", async (req, res) => {
       if (payload.data?.propertyInfo) {
         const propertyInfo = {
           propertyId: payload.data?.id,
-          airConditioningType: payload.data.propertyInfo?.airConditioningType || null,
+          airConditioningType:
+            payload.data.propertyInfo?.airConditioningType || null,
           attic: payload.data.propertyInfo?.attic,
           basementFinishedPercent:
             payload.data.propertyInfo?.basementFinishedPercent || null,
-          basementSquareFeet: payload.data.propertyInfo?.basementSquareFeet || null,
+          basementSquareFeet:
+            payload.data.propertyInfo?.basementSquareFeet || null,
           basementSquareFeetFinished:
             payload.data.propertyInfo?.basementSquareFeetFinished || null,
           basementSquareFeetUnfinished:
@@ -818,7 +826,8 @@ app.post("/api/property-detail", async (req, res) => {
           bathrooms: payload.data.propertyInfo?.bathrooms || null,
           bedrooms: payload.data.propertyInfo?.bedrooms || null,
           breezeway: payload.data.propertyInfo?.breezeway,
-          buildingSquareFeet: payload.data.propertyInfo?.buildingSquareFeet || null,
+          buildingSquareFeet:
+            payload.data.propertyInfo?.buildingSquareFeet || null,
           buildingsCount: payload.data.propertyInfo?.buildingsCount || null,
           carport: payload.data.propertyInfo?.carport,
           construction: payload.data.propertyInfo?.construction || null,
@@ -832,12 +841,14 @@ app.post("/api/property-detail", async (req, res) => {
           heatingFuelType: payload.data.propertyInfo?.heatingFuelType || null,
           heatingType: payload.data.propertyInfo?.heatingType || null,
           hoa: payload.data.propertyInfo?.hoa || null,
-          interiorStructure: payload.data.propertyInfo?.interiorStructure || null,
+          interiorStructure:
+            payload.data.propertyInfo?.interiorStructure || null,
           latitude: payload.data.propertyInfo?.latitude || null,
           livingSquareFeet: payload.data.propertyInfo?.livingSquareFeet || null,
           longitude: payload.data.propertyInfo?.longitude || null,
           lotSquareFeet: payload.data.propertyInfo?.lotSquareFeet || null,
-          parcelAccountNumber: payload.data.propertyInfo?.parcelAccountNumber || null,
+          parcelAccountNumber:
+            payload.data.propertyInfo?.parcelAccountNumber || null,
           parkingSpaces: payload.data.propertyInfo?.parkingSpaces || null,
           partialBathrooms: payload.data.propertyInfo?.partialBathrooms || null,
           patio: payload.data.propertyInfo?.patio,
@@ -848,7 +859,8 @@ app.post("/api/property-detail", async (req, res) => {
           poolArea: payload.data.propertyInfo?.poolArea || null,
           porchArea: payload.data.propertyInfo?.porchArea || null,
           porchType: payload.data.propertyInfo?.porchType || null,
-          pricePerSquareFoot: payload.data.propertyInfo?.pricePerSquareFoot || null,
+          pricePerSquareFoot:
+            payload.data.propertyInfo?.pricePerSquareFoot || null,
           propertyUse: payload.data.propertyInfo?.propertyUse || null,
           propertyUseCode: payload.data.propertyInfo?.propertyUseCode || null,
           roofConstruction: payload.data.propertyInfo?.roofConstruction || null,
@@ -860,8 +872,10 @@ app.post("/api/property-detail", async (req, res) => {
           taxExemptionHomeownerFlag:
             payload.data.propertyInfo?.taxExemptionHomeownerFlag,
           unitsCount: payload.data.propertyInfo?.unitsCount || null,
-          utilitiesSewageUsage: payload.data.propertyInfo?.utilitiesSewageUsage || null,
-          utilitiesWaterSource: payload.data.propertyInfo?.utilitiesWaterSource || null,
+          utilitiesSewageUsage:
+            payload.data.propertyInfo?.utilitiesSewageUsage || null,
+          utilitiesWaterSource:
+            payload.data.propertyInfo?.utilitiesWaterSource || null,
           yearBuilt: payload.data.propertyInfo?.yearBuilt || null,
         };
 
@@ -1023,7 +1037,8 @@ app.post("/api/property-detail", async (req, res) => {
           assessedValue: payload.data.taxInfo?.assessedValue || null,
           assessmentYear: payload.data.taxInfo?.assessmentYear || null,
           estimatedValue: payload.data.taxInfo?.estimatedValue || null,
-          marketImprovementValue: payload.data.taxInfo?.marketImprovementValue || null,
+          marketImprovementValue:
+            payload.data.taxInfo?.marketImprovementValue || null,
           marketLandValue: payload.data.taxInfo?.marketLandValue || null,
           marketValue: payload.data.taxInfo?.marketValue || null,
           taxAmount: payload.data.taxInfo?.taxAmount || null,
@@ -1060,7 +1075,8 @@ app.post("/api/property-detail", async (req, res) => {
           companyName: payload.data.ownerInfo?.companyName || null,
           corporateOwned: payload.data.ownerInfo?.corporateOwned || null,
           equity: payload.data.ownerInfo?.equity || null,
-          inStateAbsenteeOwner: payload.data.ownerInfo?.inStateAbsenteeOwner || null,
+          inStateAbsenteeOwner:
+            payload.data.ownerInfo?.inStateAbsenteeOwner || null,
           outOfStateAbsenteeOwner:
             payload.data.ownerInfo?.outOfStateAbsenteeOwner || null,
           owner1FirstName: payload.data.ownerInfo?.owner1FirstName || null,
@@ -1158,7 +1174,10 @@ app.post("/api/property-detail", async (req, res) => {
       // Close the database connection
       await connection.end();
 
-      res.json({ messageAPI: "Property detail data processed successfully",messageDB: "Property detail data processed and inserted successfully" });
+      res.json({
+        messageAPI: "Property detail data processed successfully",
+        messageDB: "Property detail data processed and inserted successfully",
+      });
 
       //Property Return
       return;
@@ -1279,7 +1298,7 @@ app.post("/api/property-comps", async (req, res) => {
     // Include email with transformed data before sending to the webhook
     const payload = { ...transformedData, ...email };
 
-    console.log("Payload to send to Webhook:", payload);
+    //console.log("Payload to send to Webhook:", payload);
 
     // Send the transformed data along with email to the webhook
     const webhookResponse = await axios.post(propertyCompsWebhookUrl, payload, {
@@ -1294,6 +1313,142 @@ app.post("/api/property-comps", async (req, res) => {
       message: "Property comps data processed successfully",
       data: payload,
     });
+
+    //...............................................................
+    //...............................................................
+    //Comps Database
+    //...............................................................
+    //...............................................................
+
+    if (payload.comps) {
+      const connection = await mysql.createConnection(dbConfig);
+      const compsListData = payload.comps || {};
+
+      const allComps = Object.keys(compsListData).map((key) => {
+        const comps = compsListData[key];
+
+        return {
+          compsId: comps.id,
+          sqFt: comps.sqFt || null,
+          bed: comps.bedrooms || null,
+          bath: comps.bathrooms || null,
+          lotSqFt: comps.lotSquareFeet || null,
+          yearBuilt: comps.yearBuilt || null,
+          distance: comps.distance || null,
+
+          address: comps.address || null,
+        };
+      });
+
+      for (const comps of allComps) {
+        try {
+          // Insert new Comps data
+          const query = `
+          INSERT INTO compsData  (
+            compsId, sqFt, bed, bath, lotSqFt,
+            yearBuilt, distance
+          ) VALUES (?, ?, ?, ?, ?, ?, ?)
+          `;
+          const values = [
+            comps.compsId,
+            comps.sqFt,
+            comps.bed,
+            comps.bath,
+            comps.lotSqFt,
+            comps.yearBuilt,
+            comps.distance,
+          ];
+
+          const [result] = await connection.execute(query, values);
+
+          if (result?.affectedRows > 0) {
+            console.log(`Inserted compsData with DB ID: ${comps.compsId}`);
+            //...................................................
+            //compsAddress
+            try {
+              // Insert new Comps data
+              const compsAddressQuery = `
+              INSERT INTO compsAddress  (
+                compsId, address, street, city, state,
+                zip, county
+              ) VALUES (?, ?, ?, ?, ?, ?, ?)
+              `;
+              const compsAddressValues = [
+                comps.compsId,
+                comps.address.address,
+                comps.address.street,
+                comps.address.city,
+                comps.address.state,
+                comps.address.zip,
+                comps.address.county,
+              ];
+              const [result] = await connection.execute(
+                compsAddressQuery,
+                compsAddressValues
+              );
+              if (result?.affectedRows > 0) {
+                console.log(
+                  `Inserted compsAddress for compsID: ${comps.compsId}`
+                );
+              } else {
+                console.log("compsAddress data insert error");
+              }
+            } catch (error) {
+              console.error("Error inserting compsAddress:", error.message);
+            }
+          } else {
+            console.log("compsData data insert error");
+          }
+        } catch (error) {
+          console.error("Error inserting comps:", error.message);
+        }
+
+        try {
+          const [result] = await connection.execute(
+            `SELECT * FROM comps WHERE propertyId = ? AND compsId = ?`,
+            [payload.subject.id, comps.compsId]
+          );
+
+          console.log("Select: ", result.length);
+
+          if (result.length > 0) {
+            console.log("Data axist");
+          } else {
+            try {
+              const compsQuery = `
+              INSERT INTO comps  (
+                propertyId, compsId
+              ) VALUES (?, ?)
+              `;
+              const compsValues = [payload.subject.id, comps.compsId];
+
+              const [result] = await connection.execute(
+                compsQuery,
+                compsValues
+              );
+
+              if (result?.affectedRows > 0) {
+                console.log(
+                  `Inserted comps with for property ID: ${payload.subject.id} with compsId ${comps.compsId}`
+                );
+              } else {
+                console.log("comps data insert error");
+              }
+            } catch (error) {
+              console.error("Error inserting comps:", error.message);
+            }
+          }
+        } catch (error) {
+          console.error("Error searching comps:", error.message);
+        }
+      }
+
+      // Close the database connection
+      await connection.end();
+    }
+
+    //.................................................................
+    //.................................................................
   } catch (error) {
     console.error("Error occurred:", error.message);
     res
