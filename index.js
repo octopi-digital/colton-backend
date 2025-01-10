@@ -1309,10 +1309,10 @@ app.post("/api/property-comps", async (req, res) => {
 
     console.log("Webhook response status:", webhookResponse.status);
 
-    res.json({
-      message: "Property comps data processed successfully",
-      data: payload,
-    });
+    // res.json({
+    //   message: "Property comps data processed successfully",
+    //   data: payload,
+    // });
 
     //...............................................................
     //...............................................................
@@ -1445,6 +1445,13 @@ app.post("/api/property-comps", async (req, res) => {
 
       // Close the database connection
       await connection.end();
+
+
+      res.json({
+        messageAPI: "Property comps data processed successfully",
+        
+      });
+  
     }
 
     //.................................................................
